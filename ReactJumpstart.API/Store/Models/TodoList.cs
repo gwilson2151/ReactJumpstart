@@ -1,4 +1,4 @@
-﻿namespace ReactJumpstart.Store.Models
+﻿namespace ReactJumpstart.API.Store.Models
 {
 	public class TodoList
 	{

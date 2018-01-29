@@ -1,6 +1,6 @@
 ﻿using System.Web.Mvc;
 
-namespace ReactJumpstart.Controllers
+namespace ReactJumpstart.API.Controllers
 {
 	public class HomeController : Controller
 	{

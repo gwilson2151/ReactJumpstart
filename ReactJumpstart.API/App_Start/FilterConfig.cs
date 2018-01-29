@@ -1,6 +1,6 @@
 ﻿using System.Web.Mvc;
 
-namespace ReactJumpstart
+namespace ReactJumpstart.API
 {
 	public class FilterConfig
 	{

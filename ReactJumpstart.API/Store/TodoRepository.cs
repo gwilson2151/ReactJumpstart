@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
-using ReactJumpstart.Store.Models;
+using ReactJumpstart.API.Store.Models;
 
-namespace ReactJumpstart.Store
+namespace ReactJumpstart.API.Store
 {
 	public class TodoRepository : ITodoRepository
 	{

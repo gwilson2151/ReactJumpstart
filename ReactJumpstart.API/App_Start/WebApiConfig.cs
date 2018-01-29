@@ -1,6 +1,6 @@
 ﻿using System.Web.Http;
 
-namespace ReactJumpstart
+namespace ReactJumpstart.API
 {
 	public static class WebApiConfig
 	{

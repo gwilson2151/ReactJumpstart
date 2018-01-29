@@ -1,10 +1,10 @@
 ﻿using System.Net;
 using System.Web.Http;
-using ReactJumpstart.Models;
-using ReactJumpstart.Store;
-using ReactJumpstart.Store.Models;
+using ReactJumpstart.API.Models;
+using ReactJumpstart.API.Store;
+using ReactJumpstart.API.Store.Models;
 
-namespace ReactJumpstart.Controllers
+namespace ReactJumpstart.API.Controllers
 {
 	public class ListsController : ApiController
 	{
