@@ -40,7 +40,7 @@ namespace ReactJumpstart.API.Controllers
 			var items = _todoRepository.GetItemsByListId(listId);
 			if (items == null)
 				return NotFound();
-			return Ok(items);
+			return Ok(items.Select(ToDto));
 		}
 
 		// GET api/items/5
@@ -48,39 +48,49 @@ namespace ReactJumpstart.API.Controllers
 			var item = _todoRepository.GetItem(id);
 			if (item == null)
 				return NotFound();
-			return Ok(item);
+			return Ok(ToDto(item));
 		}
 
 		// POST api/items
 		public IHttpActionResult Post([FromBody]TodoItemDto value) {
 			if (!ValidatePost(value))
 				return BadRequest("Ensure item has listId, text and optionally done, notes.");
-			return Ok(_todoRepository.AddItem(value.listId, value.text, value.done, value.notes));
+			return Ok(ToDto(_todoRepository.AddItem(value.listId, value.text, value.done, value.notes)));
 		}
 
 		// PUT api/items/5
 		public IHttpActionResult Put(int id, [FromBody]TodoItemDto value) {
 			var item = new TodoItem(id, value.listId, value.text, value.done, value.notes);
 			item = _todoRepository.UpdateItem(item);
-			if (item == null)
+			if (null == item)
 				return NotFound();
-			return Ok(item);
+			return Ok(ToDto(item));
 		}
 
 		// DELETE api/items/5
 		public IHttpActionResult Delete(int id) {
-			var item = _todoRepository.RemoveItem(id);
-			if (item == null)
+			if (null == _todoRepository.RemoveItem(id))
 				return NotFound();
 			return StatusCode(HttpStatusCode.NoContent);
 		}
 
 		private static bool ValidatePost(TodoItemDto item) {
-			if (item.listId <= 0)
+			if (0 >= item.listId)
 				return false;
 			if (string.IsNullOrWhiteSpace(item.text))
 				return false;
 			return true;
+		}
+
+		private static TodoItemDto ToDto(TodoItem item) {
+			return new TodoItemDto
+			{
+				id = item.Id,
+				listId = item.ListId,
+				text = item.Text,
+				done = item.Done,
+				notes = item.Notes
+			};
 		}
 	}
 }

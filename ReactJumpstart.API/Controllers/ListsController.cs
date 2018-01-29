@@ -1,4 +1,5 @@
-﻿using System.Net;
+﻿using System.Linq;
+using System.Net;
 using System.Web.Http;
 using ReactJumpstart.API.Models;
 using ReactJumpstart.API.Store;
@@ -20,7 +21,7 @@ namespace ReactJumpstart.API.Controllers
 
 		// GET api/lists
 		public IHttpActionResult Get() {
-			return Ok(_todoRepository.GetAllLists());
+			return Ok(_todoRepository.GetAllLists().Select(ToDto));
 		}
 
 		// GET api/lists/5
@@ -28,14 +29,14 @@ namespace ReactJumpstart.API.Controllers
 			var list = _todoRepository.GetList(id);
 			if (list == null)
 				return NotFound();
-			return Ok(list);
+			return Ok(ToDto(list));
 		}
 
 		// POST api/lists
 		public IHttpActionResult Post([FromBody]TodoListDto value) {
 			if (!ValidatePost(value))
 				return BadRequest("Ensure list has name field...");
-			return Ok(_todoRepository.AddList(value.name));
+			return Ok(ToDto(_todoRepository.AddList(value.name)));
 		}
 
 		// PUT api/lists/5
@@ -44,13 +45,12 @@ namespace ReactJumpstart.API.Controllers
 			list = _todoRepository.UpdateList(list);
 			if (list == null)
 				return NotFound();
-			return Ok(list);
+			return Ok(ToDto(list));
 		}
 
 		// DELETE api/lists/5
 		public IHttpActionResult Delete(int id) {
-			var list = _todoRepository.RemoveList(id);
-			if (list == null)
+			if (null == _todoRepository.RemoveList(id))
 				return NotFound();
 			return StatusCode(HttpStatusCode.NoContent);
 		}
@@ -59,6 +59,14 @@ namespace ReactJumpstart.API.Controllers
 			if (string.IsNullOrWhiteSpace(list.name))
 				return false;
 			return true;
+		}
+
+		private static TodoListDto ToDto(TodoList list) {
+			return new TodoListDto
+			{
+				id = list.Id,
+				name = list.Name
+			};
 		}
 	}
 }
