@@ -143,11 +143,13 @@
     <Content Include="_src\index.js" />
     <Content Include="packages.config" />
     <Content Include="Views\Default\Index.cshtml" />
-    <Content Include="Views\_Layout.cshtml" />
+    <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="scripts\popper-utils.min.js.map" />
     <Content Include="scripts\popper-utils.js.map" />
     <Content Include="scripts\popper.min.js.map" />
     <Content Include="scripts\popper.js.map" />
+    <Content Include="Views\Web.config" />
+    <Content Include="Views\_ViewStart.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -160,6 +162,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\BundleConfig.cs" />
+    <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controller\DefaultController.cs" />
     <Compile Include="Global.asax.cs">

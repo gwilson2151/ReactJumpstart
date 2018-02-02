@@ -1,6 +1,6 @@
 ﻿using System.Web.Optimization;
 
-namespace ReactJumpstart.UI.App_Start
+namespace ReactJumpstart.UI
 {
 	public class BundleConfig
 	{
