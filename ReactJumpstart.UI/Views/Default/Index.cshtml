@@ -1,5 +1,11 @@
-﻿@{
-    
-}
+﻿<div id="root"></div>
 
-Bloop bleep!
+@section scripts
+{
+@Scripts.Render("~/bundles/app")
+<script type="text/javascript">
+	"use strict";
+	
+	ReactDOM.render(React.createElement(TodoApp), document.getElementById('root'));
+</script>
+}

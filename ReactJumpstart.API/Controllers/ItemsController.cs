@@ -4,12 +4,14 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
+using System.Web.Http.Cors;
 using ReactJumpstart.API.Models;
 using ReactJumpstart.API.Store;
 using ReactJumpstart.API.Store.Models;
 
 namespace ReactJumpstart.API.Controllers
 {
+	[EnableCors("http://localhost:56093", "*", "GET,PUT,POST,DELETE", PreflightMaxAge = 600)]
 	public class ItemsController : ApiController
 	{
 		private readonly ITodoRepository _todoRepository;

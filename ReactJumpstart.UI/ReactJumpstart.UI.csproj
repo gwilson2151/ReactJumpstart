@@ -123,12 +123,12 @@
     <Content Include="content\bootstrap-grid.css.map" />
     <Content Include="content\bootstrap.min.css.map" />
     <Content Include="content\bootstrap.css.map" />
+    <Content Include="_src\todoApp.js" />
+    <Content Include="_src\todoItem.js" />
+    <Content Include="_src\todoList.js" />
     <None Include="scripts\jquery-3.3.1.intellisense.js" />
     <Content Include="scripts\jquery-3.3.1.js" />
     <Content Include="scripts\jquery-3.3.1.min.js" />
-    <Content Include="scripts\jquery-3.3.1.slim.js" />
-    <Content Include="scripts\jquery-3.3.1.slim.min.js" />
-    <Content Include="scripts\jquery-3.3.1.slim.min.map" />
     <Content Include="scripts\jquery-3.3.1.min.map" />
     <None Include="scripts\jquery.validate-vsdoc.js" />
     <Content Include="scripts\jquery.validate.js" />
@@ -140,7 +140,8 @@
     <Content Include="scripts\popper-utils.min.js" />
     <Content Include="scripts\popper.js" />
     <Content Include="scripts\popper.min.js" />
-    <Content Include="_src\index.js" />
+    <Content Include="scripts\react-dom.js" />
+    <Content Include="scripts\react.js" />
     <Content Include="packages.config" />
     <Content Include="Views\Default\Index.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
@@ -200,6 +201,21 @@
       </FlavorProperties>
     </VisualStudio>
   </ProjectExtensions>
+  <PropertyGroup>
+    <PreBuildEvent>goto :$(ConfigurationName)
+
+:Release
+xcopy "$(ProjectDir)\node_modules\react\umd\react.production.min.js" "$(ProjectDir)\scripts\react.js*" /Y /Q
+xcopy "$(ProjectDir)\node_modules\react-dom\umd\react-dom.production.min.js" "$(ProjectDir)\scripts\react-dom.js*" /Y /Q
+
+goto :Exit
+
+:Debug
+xcopy "$(ProjectDir)\node_modules\react\umd\react.development.js" "$(ProjectDir)\scripts\react.js*" /Y /Q
+xcopy "$(ProjectDir)\node_modules\react-dom\umd\react-dom.development.js" "$(ProjectDir)\scripts\react-dom.js*" /Y /Q
+
+:Exit</PreBuildEvent>
+  </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

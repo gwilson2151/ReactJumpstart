@@ -4,8 +4,8 @@
   "description": "A jumping off point for playing with React + ASP.NET.",
   "main": "index.js",
   "scripts": {
-	"test": "echo \"Error: no test specified\" && exit 1",
-	"build": "babel _src -d scripts/app"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "babel _src -d scripts/app"
   },
   "author": "gavinwilson@gmail.com",
   "license": "ISC",
