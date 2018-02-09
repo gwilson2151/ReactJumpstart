@@ -18,16 +18,33 @@ var TodoList = function (_React$Component) {
 
 		_this.state = {
 			name: props.name,
-			items: props.items || []
+			items: []
 		};
+		_this.todoService = props.todoService;
+		_this.getItems(props.id);
 		return _this;
 	}
 
 	_createClass(TodoList, [{
+		key: "getItems",
+		value: function getItems(listId) {
+			var that = this;
+			var success = function success(data) {
+				that.setState({ items: data });
+			};
+			var error = function error(xhr, text, status) {
+				console.error("error: [" + text + "] [" + status + "]");
+			};
+
+			this.todoService.getItems(listId, success, error);
+		}
+	}, {
 		key: "render",
 		value: function render() {
+			var _this2 = this;
+
 			var items = this.state.items.map(function (item) {
-				return React.createElement(TodoItem, { key: item.id, id: item.id, text: item.text, done: item.done, notes: item.notes });
+				return React.createElement(TodoItem, { key: item.id, id: item.id, text: item.text, done: item.done, notes: item.notes, todoService: _this2.todoService });
 			});
 			return React.createElement(
 				"div",

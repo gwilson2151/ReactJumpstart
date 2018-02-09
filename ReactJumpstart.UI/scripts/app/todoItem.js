@@ -21,6 +21,7 @@ var TodoItem = function (_React$Component) {
 			done: props.done,
 			notes: props.notes
 		};
+		_this.todoService = props.todoService;
 		return _this;
 	}
 

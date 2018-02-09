@@ -126,6 +126,7 @@
     <Content Include="_src\todoApp.js" />
     <Content Include="_src\todoItem.js" />
     <Content Include="_src\todoList.js" />
+    <Content Include="_src\todoService.js" />
     <None Include="scripts\jquery-3.3.1.intellisense.js" />
     <Content Include="scripts\jquery-3.3.1.js" />
     <Content Include="scripts\jquery-3.3.1.min.js" />

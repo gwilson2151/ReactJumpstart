@@ -6,6 +6,7 @@
 			done: props.done,
 			notes: props.notes
 		};
+		this.todoService = props.todoService;
 	}
 
 	render() {

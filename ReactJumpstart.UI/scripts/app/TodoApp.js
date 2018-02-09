@@ -19,46 +19,30 @@ var TodoApp = function (_React$Component) {
 		_this.state = {
 			lists: props.lists || []
 		};
-		console.log(props);
+		_this.todoService = props.todoService;
 		_this.getLists();
 		return _this;
 	}
 
 	_createClass(TodoApp, [{
-		key: "getInitialState",
-		value: function getInitialState() {
-			this.getLists();
-		}
-	}, {
-		key: "componentWillReceiveProps",
-		value: function componentWillReceiveProps(nextProps) {
-			this.getLists();
-		}
-	}, {
 		key: "getLists",
 		value: function getLists() {
-			console.log("TodoApp.getLists");
-			var self = this;
-			jQuery.ajax("http://localhost:62880/api/lists", {
-				method: "GET",
-				dataType: "json",
-				jsonp: false,
-				success: function success(data) {
-					console.log(data);
-					self.setState({ lists: data });
-				},
-				error: function error(xhr, text, status) {
-					// some error display here.
-					console.log("error: [" + text + "] [" + status + "]");
-				}
-
-			});
+			var that = this;
+			var success = function success(data) {
+				that.setState({ lists: data });
+			};
+			var error = function error(xhr, text, status) {
+				console.error("error: [" + text + "] [" + status + "]");
+			};
+			this.todoService.getLists(success, error);
 		}
 	}, {
 		key: "render",
 		value: function render() {
+			var _this2 = this;
+
 			var lists = this.state.lists.map(function (list) {
-				return React.createElement(TodoList, { key: list.id, id: list.id, name: list.name });
+				return React.createElement(TodoList, { key: list.id, id: list.id, name: list.name, todoService: _this2.todoService });
 			});
 			return React.createElement(
 				"div",

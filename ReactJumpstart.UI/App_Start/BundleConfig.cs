@@ -15,6 +15,7 @@ namespace ReactJumpstart.UI
 				));
 
 			bundles.Add(new ScriptBundle("~/bundles/app").Include(
+				"~/scripts/app/todoService.js",
 				"~/scripts/app/todoApp.js",
 				"~/scripts/app/todoList.js",
 				"~/scripts/app/todoItem.js"));

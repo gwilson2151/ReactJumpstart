@@ -5,7 +5,13 @@
 @Scripts.Render("~/bundles/app")
 <script type="text/javascript">
 	"use strict";
-	
-	ReactDOM.render(React.createElement(TodoApp), document.getElementById('root'));
+
+	var params = {
+		jQuery: jQuery,
+		listsUri: "http://localhost:62880/api/lists",
+		itemsUri: "http://localhost:62880/api/items"
+	};
+	var todoService = new TodoService(params);
+	ReactDOM.render(React.createElement(TodoApp, { todoService: todoService}), document.getElementById('root'));
 </script>
 }
