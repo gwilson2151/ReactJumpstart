@@ -1,65 +1,95 @@
 "use strict";
 
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-var TodoApp = function (_React$Component) {
-	_inherits(TodoApp, _React$Component);
-
-	function TodoApp(props) {
-		_classCallCheck(this, TodoApp);
-
-		var _this = _possibleConstructorReturn(this, (TodoApp.__proto__ || Object.getPrototypeOf(TodoApp)).call(this, props));
-
-		_this.state = {
+class TodoApp extends React.Component {
+	constructor(props) {
+		super(props);
+		this.state = {
 			lists: props.lists || []
 		};
-		_this.todoService = props.todoService;
-		_this.getLists();
-		return _this;
+		this.getLists();
+		this.getItems = this.getItems.bind(this);
+		this.createList = this.createList.bind(this);
 	}
 
-	_createClass(TodoApp, [{
-		key: "getLists",
-		value: function getLists() {
-			var that = this;
-			var success = function success(data) {
-				that.setState({ lists: data });
-			};
-			var error = function error(xhr, text, status) {
-				console.error("error: [" + text + "] [" + status + "]");
-			};
-			this.todoService.getLists(success, error);
+	_verifyCompleteCallback(callback) {
+		if (callback && typeof callback === "function") {
+			return () => callback();
 		}
-	}, {
-		key: "render",
-		value: function render() {
-			var _this2 = this;
 
-			var lists = this.state.lists.map(function (list) {
-				return React.createElement(TodoList, { key: list.id, id: list.id, name: list.name, todoService: _this2.todoService });
+		return () => {};
+	}
+
+	getLists(onComplete) {
+		const completeCallback = this._verifyCompleteCallback(onComplete);
+		const success = data => {
+			this.setState({ lists: data });
+			completeCallback();
+		};
+		const error = (xhr, text, status) => {
+			console.error(`getLists error: text='${text}' status='${status}'`);
+			completeCallback();
+		};
+		this.props.todoService.getLists(success, error);
+	}
+
+	createList(list, onComplete) {
+		const completeCallback = this._verifyCompleteCallback(onComplete);
+		const success = data => {
+			this.setState((prevState, props) => {
+				return { lists: prevState.lists.concat(data) };
 			});
-			return React.createElement(
+			completeCallback();
+		};
+		const error = (xhr, text, status) => {
+			console.error(`createLists error: text='${text}' status='${status}'`);
+			completeCallback();
+		};
+		this.props.todoService.createList(list, success, error);
+	}
+
+	getItems(listId, onComplete) {
+		const completeCallback = this._verifyCompleteCallback(onComplete);
+		const success = data => {
+			this.setState((prevState, props) => {
+				const lists = prevState.lists.map(list => {
+					if (list.id === listId) {
+						return {
+							id: list.id,
+							name: list.name,
+							items: data
+						};
+					}
+					return list;
+				});
+
+				return { lists: lists };
+			});
+			completeCallback();
+		};
+		const error = (xhr, text, status) => {
+			console.error(`getItems error: listId='${listId}' text='${text}' status='${status}'`);
+			completeCallback();
+		};
+
+		this.props.todoService.getItems(listId, success, error);
+	}
+
+	render() {
+		const lists = this.state.lists.map(list => React.createElement(TodoList, { key: list.id, id: list.id, name: list.name, items: list.items, onGetItems: this.getItems }));
+		return React.createElement(
+			"div",
+			null,
+			React.createElement(
+				"h1",
+				null,
+				"TodoApp"
+			),
+			React.createElement(CreateTodoListForm, { onCreateList: this.createList }),
+			React.createElement(
 				"div",
 				null,
-				React.createElement(
-					"h1",
-					null,
-					"TodoApp"
-				),
-				React.createElement(
-					"div",
-					null,
-					lists
-				)
-			);
-		}
-	}]);
-
-	return TodoApp;
-}(React.Component);
+				lists
+			)
+		);
+	}
+}

@@ -3,31 +3,52 @@
 		super(props);
 		this.state = {
 			name: props.name,
-			items: []
+			items: props.items || [],
+			isExpanded: false,
+			isLoading: false
 		};
-		this.todoService = props.todoService;
-		this.getItems(props.id);
+		this.toggle = this.toggle.bind(this);
 	}
 
 	getItems(listId) {
-		var that = this;
-		var success = function(data) {
-			that.setState({ items: data });
-		};
-		var error = function(xhr, text, status) {
-			console.error("error: [" + text + "] [" + status + "]");
+		const completeCallback = () => {
+			this.setState({ isLoading: false });
 		};
 
-		this.todoService.getItems(listId, success, error);
+		this.props.onGetItems(listId, completeCallback);
+		this.setState({ isLoading: true });
+	}
+
+	toggle() {
+		const willExpand = !this.state.isExpanded;
+
+		if (willExpand) {
+			this.getItems(this.props.id);
+		}
+
+		this.setState({ isExpanded: willExpand });
 	}
 
 	render() {
-		const items = this.state.items.map((item) => 
-					<TodoItem key={item.id} id={item.id} text={item.text} done={item.done} notes={item.notes} todoService={this.todoService} />
+		let contents;
+		
+		if (this.state.isLoading) {
+			contents = (<div>loading...</div>);
+		} else if (this.state.isExpanded) {
+			const items = this.state.items.map((item) => 
+					<TodoItem key={item.id} id={item.id} text={item.text} done={item.done} notes={item.notes} />
 				);
+			if (items && items.length > 0) {
+				contents = (<ul>{items}</ul>);
+			} else {
+				contents = (<div>no items.</div>);
+			}
+		}
+		
+		const expandIndicator = this.state.isExpanded ? "[-]" : "[+]";
 		return (<div>
-			<h3>{this.state.name}</h3>
-			<ul> {items} </ul>
+			<div onClick={this.toggle}>{expandIndicator} <span>{this.state.name}</span></div>
+			{contents}
 			</div>);
 	}
 }

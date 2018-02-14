@@ -58,6 +58,8 @@ namespace ReactJumpstart.API.Controllers
 		}
 
 		private static bool ValidatePost(TodoListDto list) {
+			if (list == null)
+				return false;
 			if (string.IsNullOrWhiteSpace(list.name))
 				return false;
 			return true;

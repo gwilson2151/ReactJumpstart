@@ -4,28 +4,82 @@
 		this.state = {
 			lists: props.lists || []
 		};
-		this.todoService = props.todoService;
 		this.getLists();
+		this.getItems = this.getItems.bind(this);
+		this.createList = this.createList.bind(this);
+	}
+	
+	_verifyCompleteCallback(callback) {
+		if (callback && typeof(callback) === "function") {
+			return () => callback();
+		}
+		
+		return () => {};
 	}
 
-	getLists() {
-		var that = this;
-		var success = function(data) {
-			that.setState({ lists: data });
+	getLists(onComplete) {
+		const completeCallback = this._verifyCompleteCallback(onComplete);
+		const success = data => {
+			this.setState({ lists: data });
+			completeCallback();
 		};
-		var error = function(xhr, text, status) {
-			console.error("error: [" + text + "] [" + status + "]");
+		const error = (xhr, text, status) => {
+			console.error(`getLists error: text='${text}' status='${status}'`);
+			completeCallback();
 		};
-		this.todoService.getLists(success, error);
+		this.props.todoService.getLists(success, error);
+	}
+	
+	createList(list, onComplete) {
+		const completeCallback = this._verifyCompleteCallback(onComplete);
+		const success = data => {
+			this.setState((prevState, props) => {
+				return { lists: prevState.lists.concat(data) };
+			});
+			completeCallback();
+		};
+		const error = (xhr, text, status) => {
+			console.error(`createLists error: text='${text}' status='${status}'`);
+			completeCallback();
+		};
+		this.props.todoService.createList(list, success, error);
+	}
+
+	getItems(listId, onComplete) {
+		const completeCallback = this._verifyCompleteCallback(onComplete);
+		const success = data => {
+			this.setState((prevState, props) => {
+				const lists = prevState.lists.map(list => {
+					if (list.id === listId) {
+						return {
+							id: list.id,
+							name: list.name,
+							items: data
+						};
+					}
+					return list;
+				});
+
+				return { lists: lists };
+			});
+			completeCallback();
+		};
+		const error = (xhr, text, status) => {
+			console.error(`getItems error: listId='${listId}' text='${text}' status='${status}'`);
+			completeCallback();
+		};
+
+		this.props.todoService.getItems(listId, success, error);
 	}
 
 	render() {
 		const lists = this.state.lists.map((list) => 
-			<TodoList key={list.id} id={list.id} name={list.name} todoService={this.todoService} />
+			<TodoList key={list.id} id={list.id} name={list.name} items={list.items} onGetItems={this.getItems} />
 		);
 		return (
 			<div>
 				<h1>TodoApp</h1>
+				<CreateTodoListForm onCreateList={this.createList} />
 				<div>{lists}</div>
 			</div>
 			);
