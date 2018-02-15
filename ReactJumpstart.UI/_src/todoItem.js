@@ -6,10 +6,15 @@
 			done: props.done,
 			notes: props.notes
 		};
-		this.todoService = props.todoService;
+		this.deleteItem = this.deleteItem.bind(this);
+	}
+	
+	deleteItem() {
+		this.props.onDeleteItem(this.props.id);
 	}
 
 	render() {
-		return (<li>{this.state.text}</li>);
+		return (<li><span>{this.state.text}</span>
+				<span onClick={this.deleteItem}>|DELETE|</span></li>);
 	}
 }

@@ -8,14 +8,27 @@ class TodoItem extends React.Component {
 			done: props.done,
 			notes: props.notes
 		};
-		this.todoService = props.todoService;
+		this.deleteItem = this.deleteItem.bind(this);
+	}
+
+	deleteItem() {
+		this.props.onDeleteItem(this.props.id);
 	}
 
 	render() {
 		return React.createElement(
 			"li",
 			null,
-			this.state.text
+			React.createElement(
+				"span",
+				null,
+				this.state.text
+			),
+			React.createElement(
+				"span",
+				{ onClick: this.deleteItem },
+				"|DELETE|"
+			)
 		);
 	}
 }

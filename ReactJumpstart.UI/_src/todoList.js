@@ -41,7 +41,7 @@
 			contents = (<div>loading...</div>);
 		} else if (this.state.isExpanded) {
 			const items = this.props.items.map(item => 
-					<TodoItem key={item.id} id={item.id} text={item.text} done={item.done} notes={item.notes} />
+					<TodoItem key={item.id} id={item.id} text={item.text} done={item.done} notes={item.notes} onDeleteItem={this.props.onDeleteItem} />
 				);
 			if (items && items.length > 0) {
 				contents = (<ul>{items}</ul>);

@@ -113,6 +113,14 @@
     <Content Include="scripts\bootstrap.bundle.min.js" />
     <Content Include="scripts\bootstrap.js" />
     <Content Include="scripts\bootstrap.min.js" />
+    <Content Include="scripts\umd\popper-utils.js" />
+    <Content Include="scripts\umd\popper-utils.min.js" />
+    <Content Include="scripts\umd\popper.js" />
+    <Content Include="scripts\umd\popper.min.js" />
+    <Content Include="_src\todoApp.js" />
+    <Content Include="_src\todoItem.js" />
+    <Content Include="_src\todoList.js" />
+    <Content Include="_src\todoService.js" />
     <Content Include="scripts\bootstrap.min.js.map" />
     <Content Include="scripts\bootstrap.js.map" />
     <Content Include="scripts\bootstrap.bundle.min.js.map" />
@@ -123,10 +131,6 @@
     <Content Include="content\bootstrap-grid.css.map" />
     <Content Include="content\bootstrap.min.css.map" />
     <Content Include="content\bootstrap.css.map" />
-    <Content Include="_src\todoApp.js" />
-    <Content Include="_src\todoItem.js" />
-    <Content Include="_src\todoList.js" />
-    <Content Include="_src\todoService.js" />
     <None Include="scripts\jquery-3.3.1.intellisense.js" />
     <Content Include="scripts\jquery-3.3.1.js" />
     <Content Include="scripts\jquery-3.3.1.min.js" />
@@ -137,21 +141,17 @@
     <Content Include="scripts\jquery.validate.unobtrusive.js" />
     <Content Include="scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="scripts\modernizr-2.6.2.js" />
-    <Content Include="scripts\popper-utils.js" />
-    <Content Include="scripts\popper-utils.min.js" />
-    <Content Include="scripts\popper.js" />
-    <Content Include="scripts\popper.min.js" />
     <Content Include="scripts\react-dom.js" />
     <Content Include="scripts\react.js" />
     <Content Include="packages.config" />
     <Content Include="Views\Default\Index.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
-    <Content Include="scripts\popper-utils.min.js.map" />
-    <Content Include="scripts\popper-utils.js.map" />
-    <Content Include="scripts\popper.min.js.map" />
-    <Content Include="scripts\popper.js.map" />
     <Content Include="Views\Web.config" />
     <Content Include="Views\_ViewStart.cshtml" />
+    <Content Include="scripts\umd\popper-utils.min.js.map" />
+    <Content Include="scripts\umd\popper-utils.js.map" />
+    <Content Include="scripts\umd\popper.min.js.map" />
+    <Content Include="scripts\umd\popper.js.map" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

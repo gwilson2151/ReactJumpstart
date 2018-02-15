@@ -46,7 +46,7 @@ class TodoList extends React.Component {
 				"loading..."
 			);
 		} else if (this.state.isExpanded) {
-			const items = this.props.items.map(item => React.createElement(TodoItem, { key: item.id, id: item.id, text: item.text, done: item.done, notes: item.notes }));
+			const items = this.props.items.map(item => React.createElement(TodoItem, { key: item.id, id: item.id, text: item.text, done: item.done, notes: item.notes, onDeleteItem: this.props.onDeleteItem }));
 			if (items && items.length > 0) {
 				contents = React.createElement(
 					"ul",

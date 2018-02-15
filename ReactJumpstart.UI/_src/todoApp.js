@@ -9,6 +9,7 @@
 		this.deleteList = this.deleteList.bind(this);
 		this.getItems = this.getItems.bind(this);
 		this.createItem = this.createItem.bind(this);
+		this.deleteItem = this.deleteItem.bind(this);
 	}
 	
 	_verifyCompleteCallback(callback) {
@@ -47,16 +48,16 @@
 		this.props.todoService.createList(list, success, error);
 	}
 	
-	deleteList(listId) {
+	deleteList(id) {
 		const success = data => {
 			this.setState((prevState, props) => {
-				return { lists: prevState.lists.filter(item => item.id !== listId ) };
+				return { lists: prevState.lists.filter(list => list.id !== id ) };
 			});
 		};
 		const error = (xhr, text, status) => {
 			console.error(`deleteList error: text='${text}' status='${status}'`);
 		};
-		this.props.todoService.deleteList(listId, success, error);
+		this.props.todoService.deleteList(id, success, error);
 	}
 
 	getItems(listId, onComplete) {
@@ -106,16 +107,41 @@
 			completeCallback();
 		};
 		const error = (xhr, text, status) => {
-			console.error(`createItem error: listId='${list.Id}' text='${text}' status='${status}'`);
+			console.error(`createItem error: listId='${item.listId}' text='${text}' status='${status}'`);
 			completeCallback();
 		};
 
 		this.props.todoService.createItem(item, success, error);
 	}
+	
+	deleteItem(id) {
+		const success = data => {
+			this.setState((prevState, props) => {
+				const lists = prevState.lists.map(list => {
+					if (list.items && list.items.find(item => item.id === id)) {
+						const items = list.items.filter(item => item.id !== id);
+						return {
+							id: list.id,
+							name: list.name,
+							items: items
+						};
+					}
+					
+					return list;
+				});
+
+				return { lists: lists };
+			});
+		};
+		const error = (xhr, text, status) => {
+			console.error(`deleteItem id=${id} error: text='${text}' status='${status}'`);
+		};
+		this.props.todoService.deleteItem(id, success, error);
+	}
 
 	render() {
-		const lists = this.state.lists.map((list) => 
-			<TodoList key={list.id} id={list.id} name={list.name} items={list.items} onGetItems={this.getItems} onDeleteList={this.deleteList} onCreateItem={this.createItem} />
+		const lists = this.state.lists.map(list => 
+			<TodoList key={list.id} id={list.id} name={list.name} items={list.items} onGetItems={this.getItems} onDeleteList={this.deleteList} onCreateItem={this.createItem} onDeleteItem={this.deleteItem} />
 		);
 		return (
 			<div>

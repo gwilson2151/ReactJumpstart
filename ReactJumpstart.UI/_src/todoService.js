@@ -60,4 +60,13 @@
 				error: errorCallback
 			});
 	}
+	
+	deleteItem(id, successCallback, errorCallback) {
+		this._params.jQuery.ajax(this._params.itemsUri + `/${id}`,
+		{
+			method: "DELETE",
+			success: successCallback,
+			error: errorCallback
+		});
+	}
 }

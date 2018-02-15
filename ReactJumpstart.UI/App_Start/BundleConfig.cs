@@ -9,7 +9,7 @@ namespace ReactJumpstart.UI
 				"~/scripts/jquery-{version}.js",
 				"~/scripts/jquery.validate*",
 				"~/scripts/bootstrap*",
-				"~/scripts/popper*",
+				"~/scripts/umd/popper*",
 				"~/scripts/react.js",
 				"~/scripts/react-dom.js"
 				));
