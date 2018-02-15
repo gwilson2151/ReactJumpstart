@@ -26,12 +26,31 @@ class TodoService {
 		});
 	}
 
+	deleteList(listId, successCallback, errorCallback) {
+		this._params.jQuery.ajax(this._params.listsUri + `/${listId}`, {
+			method: "DELETE",
+			success: successCallback,
+			error: errorCallback
+		});
+	}
+
 	getItems(listId, successCallback, errorCallback) {
 		const query = `?listId=${listId}`;
 		this._params.jQuery.ajax(this._params.itemsUri + query, {
 			method: "GET",
 			dataType: "json",
 			jsonp: false,
+			success: successCallback,
+			error: errorCallback
+		});
+	}
+
+	createItem(item, successCallback, errorCallback) {
+		this._params.jQuery.ajax(this._params.itemsUri, {
+			method: "POST",
+			dataType: "json",
+			jsonp: false,
+			data: item,
 			success: successCallback,
 			error: errorCallback
 		});

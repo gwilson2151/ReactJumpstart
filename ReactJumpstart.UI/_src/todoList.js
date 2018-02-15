@@ -3,11 +3,11 @@
 		super(props);
 		this.state = {
 			name: props.name,
-			items: props.items || [],
 			isExpanded: false,
 			isLoading: false
 		};
-		this.toggle = this.toggle.bind(this);
+		this.toggleExpand = this.toggleExpand.bind(this);
+		this.deleteList = this.deleteList.bind(this);
 	}
 
 	getItems(listId) {
@@ -19,7 +19,7 @@
 		this.setState({ isLoading: true });
 	}
 
-	toggle() {
+	toggleExpand() {
 		const willExpand = !this.state.isExpanded;
 
 		if (willExpand) {
@@ -28,14 +28,19 @@
 
 		this.setState({ isExpanded: willExpand });
 	}
+	
+	deleteList() {
+		this.props.onDeleteList(this.props.id);
+	}
 
 	render() {
 		let contents;
+		let form;
 		
 		if (this.state.isLoading) {
 			contents = (<div>loading...</div>);
 		} else if (this.state.isExpanded) {
-			const items = this.state.items.map((item) => 
+			const items = this.props.items.map(item => 
 					<TodoItem key={item.id} id={item.id} text={item.text} done={item.done} notes={item.notes} />
 				);
 			if (items && items.length > 0) {
@@ -43,11 +48,16 @@
 			} else {
 				contents = (<div>no items.</div>);
 			}
+			form = (<CreateTodoItemForm listId={this.props.id} onCreateItem={this.props.onCreateItem}/>);
 		}
 		
 		const expandIndicator = this.state.isExpanded ? "[-]" : "[+]";
 		return (<div>
-			<div onClick={this.toggle}>{expandIndicator} <span>{this.state.name}</span></div>
+			<div>
+				<span onClick={this.toggleExpand}>{expandIndicator} {this.state.name}</span>
+				<span onClick={this.deleteList}>|DELETE|</span>
+			</div>
+			{form}
 			{contents}
 			</div>);
 	}

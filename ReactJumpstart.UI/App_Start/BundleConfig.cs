@@ -19,7 +19,8 @@ namespace ReactJumpstart.UI
 				"~/scripts/app/todoApp.js",
 				"~/scripts/app/todoList.js",
 				"~/scripts/app/todoItem.js",
-				"~/scripts/app/createTodoListForm.js"));
+				"~/scripts/app/createTodoListForm.js",
+				"~/scripts/app/createTodoItemForm.js"));
 
 			bundles.Add(new StyleBundle("~/content/css").Include(
 					  "~/content/bootstrap.css",

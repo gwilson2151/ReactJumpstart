@@ -5,11 +5,11 @@ class TodoList extends React.Component {
 		super(props);
 		this.state = {
 			name: props.name,
-			items: props.items || [],
 			isExpanded: false,
 			isLoading: false
 		};
-		this.toggle = this.toggle.bind(this);
+		this.toggleExpand = this.toggleExpand.bind(this);
+		this.deleteList = this.deleteList.bind(this);
 	}
 
 	getItems(listId) {
@@ -21,7 +21,7 @@ class TodoList extends React.Component {
 		this.setState({ isLoading: true });
 	}
 
-	toggle() {
+	toggleExpand() {
 		const willExpand = !this.state.isExpanded;
 
 		if (willExpand) {
@@ -31,8 +31,13 @@ class TodoList extends React.Component {
 		this.setState({ isExpanded: willExpand });
 	}
 
+	deleteList() {
+		this.props.onDeleteList(this.props.id);
+	}
+
 	render() {
 		let contents;
+		let form;
 
 		if (this.state.isLoading) {
 			contents = React.createElement(
@@ -41,7 +46,7 @@ class TodoList extends React.Component {
 				"loading..."
 			);
 		} else if (this.state.isExpanded) {
-			const items = this.state.items.map(item => React.createElement(TodoItem, { key: item.id, id: item.id, text: item.text, done: item.done, notes: item.notes }));
+			const items = this.props.items.map(item => React.createElement(TodoItem, { key: item.id, id: item.id, text: item.text, done: item.done, notes: item.notes }));
 			if (items && items.length > 0) {
 				contents = React.createElement(
 					"ul",
@@ -55,6 +60,7 @@ class TodoList extends React.Component {
 					"no items."
 				);
 			}
+			form = React.createElement(CreateTodoItemForm, { listId: this.props.id, onCreateItem: this.props.onCreateItem });
 		}
 
 		const expandIndicator = this.state.isExpanded ? "[-]" : "[+]";
@@ -63,15 +69,21 @@ class TodoList extends React.Component {
 			null,
 			React.createElement(
 				"div",
-				{ onClick: this.toggle },
-				expandIndicator,
-				" ",
+				null,
 				React.createElement(
 					"span",
-					null,
+					{ onClick: this.toggleExpand },
+					expandIndicator,
+					" ",
 					this.state.name
+				),
+				React.createElement(
+					"span",
+					{ onClick: this.deleteList },
+					"|DELETE|"
 				)
 			),
+			form,
 			contents
 		);
 	}

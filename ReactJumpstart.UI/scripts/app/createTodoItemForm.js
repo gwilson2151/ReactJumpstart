@@ -1,6 +1,6 @@
 'use strict';
 
-class CreateTodoListForm extends React.Component {
+class CreateTodoItemForm extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -19,7 +19,7 @@ class CreateTodoListForm extends React.Component {
   handleSubmit(event) {
     event.preventDefault();
     const completeCallback = () => this.setState({ value: '', isLoading: false });
-    this.props.onCreateList({ name: this.state.value }, completeCallback);
+    this.props.onCreateItem({ text: this.state.value, listId: this.props.listId }, completeCallback);
     this.setState({ isLoading: true });
   }
 
@@ -33,7 +33,7 @@ class CreateTodoListForm extends React.Component {
         React.createElement(
           'label',
           null,
-          'New List:',
+          'New Item:',
           React.createElement('input', { type: 'text', value: this.state.value, onChange: this.handleChange })
         ),
         React.createElement('input', { type: 'submit', value: 'Create', disabled: this.state.isLoading })
