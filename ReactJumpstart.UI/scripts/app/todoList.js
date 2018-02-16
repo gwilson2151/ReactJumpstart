@@ -14,21 +14,19 @@ class TodoList extends React.Component {
 
 	getItems(listId) {
 		const completeCallback = () => {
-			this.setState({ isLoading: false });
+			this.setState({ "isLoading": false });
 		};
 
 		this.props.onGetItems(listId, completeCallback);
-		this.setState({ isLoading: true });
+		this.setState({ "isLoading": true });
 	}
 
 	toggleExpand() {
 		const willExpand = !this.state.isExpanded;
-
 		if (willExpand) {
 			this.getItems(this.props.id);
 		}
-
-		this.setState({ isExpanded: willExpand });
+		this.setState({ "isExpanded": willExpand });
 	}
 
 	deleteList() {
@@ -46,7 +44,7 @@ class TodoList extends React.Component {
 				"loading..."
 			);
 		} else if (this.state.isExpanded) {
-			const items = this.props.items.map(item => React.createElement(TodoItem, { key: item.id, id: item.id, text: item.text, done: item.done, notes: item.notes, onDeleteItem: this.props.onDeleteItem }));
+			const items = this.props.items.map(item => React.createElement(TodoItem, { key: item.id, id: item.id, listId: this.props.id, text: item.text, done: item.done, notes: item.notes, onUpdateItem: this.props.onUpdateItem, onDeleteItem: this.props.onDeleteItem }));
 			if (items && items.length > 0) {
 				contents = React.createElement(
 					"ul",
@@ -78,9 +76,9 @@ class TodoList extends React.Component {
 					this.state.name
 				),
 				React.createElement(
-					"span",
-					{ onClick: this.deleteList },
-					"|DELETE|"
+					"button",
+					{ type: "button", onClick: this.deleteList },
+					"DELETE"
 				)
 			),
 			form,

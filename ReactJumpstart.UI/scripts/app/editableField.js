@@ -1,10 +1,10 @@
 "use strict";
 
-class CreateTodoItemForm extends React.Component {
+class EditableField extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      "value": "",
+      "value": props.value || "",
       "isLoading": false
     };
 
@@ -19,24 +19,24 @@ class CreateTodoItemForm extends React.Component {
   handleSubmit(event) {
     event.preventDefault();
     const completeCallback = () => this.setState({ "value": "", "isLoading": false });
-    this.props.onCreateItem({ "text": this.state.value, "listId": this.props.listId }, completeCallback);
+    this.props.onSubmit(this.state.value, completeCallback);
     this.setState({ "isLoading": true });
   }
 
   render() {
     return React.createElement(
-      "div",
+      "span",
       null,
       React.createElement(
-        "form",
-        { onSubmit: this.handleSubmit },
-        React.createElement(
-          "label",
-          null,
-          "New Item:",
-          React.createElement("input", { type: "text", value: this.state.value, onChange: this.handleChange })
-        ),
-        React.createElement("input", { type: "submit", value: "CREATE", disabled: this.state.isLoading })
+        "label",
+        null,
+        this.props.label,
+        React.createElement("input", { type: "text", value: this.state.value, onChange: this.handleChange })
+      ),
+      React.createElement(
+        "button",
+        { type: "button", onClick: this.handleSubmit, disabled: this.state.isLoading },
+        this.props.buttonText
       )
     );
   }

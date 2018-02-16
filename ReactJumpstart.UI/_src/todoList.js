@@ -12,21 +12,19 @@
 
 	getItems(listId) {
 		const completeCallback = () => {
-			this.setState({ isLoading: false });
+			this.setState({ "isLoading": false });
 		};
 
 		this.props.onGetItems(listId, completeCallback);
-		this.setState({ isLoading: true });
+		this.setState({ "isLoading": true });
 	}
 
 	toggleExpand() {
 		const willExpand = !this.state.isExpanded;
-
 		if (willExpand) {
 			this.getItems(this.props.id);
 		}
-
-		this.setState({ isExpanded: willExpand });
+		this.setState({ "isExpanded": willExpand });
 	}
 	
 	deleteList() {
@@ -41,7 +39,7 @@
 			contents = (<div>loading...</div>);
 		} else if (this.state.isExpanded) {
 			const items = this.props.items.map(item => 
-					<TodoItem key={item.id} id={item.id} text={item.text} done={item.done} notes={item.notes} onDeleteItem={this.props.onDeleteItem} />
+					<TodoItem key={item.id} id={item.id} listId={this.props.id} text={item.text} done={item.done} notes={item.notes} onUpdateItem={this.props.onUpdateItem} onDeleteItem={this.props.onDeleteItem} />
 				);
 			if (items && items.length > 0) {
 				contents = (<ul>{items}</ul>);
@@ -55,7 +53,7 @@
 		return (<div>
 			<div>
 				<span onClick={this.toggleExpand}>{expandIndicator} {this.state.name}</span>
-				<span onClick={this.deleteList}>|DELETE|</span>
+				<button type="button" onClick={this.deleteList}>DELETE</button>
 			</div>
 			{form}
 			{contents}

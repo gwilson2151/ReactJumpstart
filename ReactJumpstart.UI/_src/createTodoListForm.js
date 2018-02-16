@@ -29,7 +29,7 @@ class CreateTodoListForm extends React.Component {
           New List: 
           <input type="text" value={this.state.value} onChange={this.handleChange} />
         </label>
-        <input type="submit" value="Create" disabled={this.state.isLoading} />
+        <input type="submit" value="CREATE" disabled={this.state.isLoading} />
       </form>
 	</div>
     );

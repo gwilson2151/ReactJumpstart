@@ -36,7 +36,7 @@ class CreateTodoListForm extends React.Component {
           'New List:',
           React.createElement('input', { type: 'text', value: this.state.value, onChange: this.handleChange })
         ),
-        React.createElement('input', { type: 'submit', value: 'Create', disabled: this.state.isLoading })
+        React.createElement('input', { type: 'submit', value: 'CREATE', disabled: this.state.isLoading })
       )
     );
   }
