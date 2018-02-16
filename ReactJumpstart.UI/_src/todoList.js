@@ -2,12 +2,30 @@
 	constructor(props) {
 		super(props);
 		this.state = {
-			name: props.name,
-			isExpanded: false,
-			isLoading: false
+			"name": props.name,
+			"isExpanded": false,
+			"isLoading": false,
+			"isEditing": false
 		};
 		this.toggleExpand = this.toggleExpand.bind(this);
+		this.toggleEdit = this.toggleEdit.bind(this);
 		this.deleteList = this.deleteList.bind(this);
+		this.updateName = this.updateName.bind(this);
+	}
+	
+	componentDidUpdate(prevProps, prevState) {
+		if (prevState.name !== this.state.name) {
+			let list = {
+				"id": this.props.id,
+				"name": this.state.name
+			};
+			this.props.onUpdateList(list);
+		}
+	}
+	
+	updateName(name, completeCallback) {
+		this.setState({ "name": name, "isEditing": false });
+		if (completeCallback && typeof(completeCallback) === "function") completeCallback();
 	}
 
 	getItems(listId) {
@@ -25,6 +43,12 @@
 			this.getItems(this.props.id);
 		}
 		this.setState({ "isExpanded": willExpand });
+	}
+	
+	toggleEdit() {
+		this.setState((prevState, props) => {
+			return { "isEditing": !prevState.isEditing };
+		});
 	}
 	
 	deleteList() {
@@ -50,10 +74,26 @@
 		}
 		
 		const expandIndicator = this.state.isExpanded ? "[-]" : "[+]";
+		let name;
+		let buttons;
+		
+		if (!this.state.isEditing) {
+			name = (<span onClick={this.toggleExpand}>{expandIndicator} {this.state.name}</span>);
+			buttons = (<span>
+				<button type="button" onClick={this.toggleEdit}>EDIT</button>
+				<button type="button" onClick={this.deleteList}>DELETE</button>
+			</span>);
+		} else {
+			name = (<span>
+				<span onClick={() => this.setState({"isEditing": false, "isExpanded": false})}>{expandIndicator} </span>
+				<EditableField value={this.state.name} buttonText="UPDATE" onSubmit={this.updateName} />
+			</span>);
+			buttons = (<span><button type="button" onClick={() => {this.setState({"isEditing": false})}}>CANCEL</button></span>);
+		}
+		
 		return (<div>
 			<div>
-				<span onClick={this.toggleExpand}>{expandIndicator} {this.state.name}</span>
-				<button type="button" onClick={this.deleteList}>DELETE</button>
+				{name}{buttons}
 			</div>
 			{form}
 			{contents}

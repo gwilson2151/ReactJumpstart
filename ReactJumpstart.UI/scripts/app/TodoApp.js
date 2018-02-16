@@ -8,6 +8,7 @@ class TodoApp extends React.Component {
 		};
 		this.getLists();
 		this.createList = this.createList.bind(this);
+		this.updateList = this.updateList.bind(this);
 		this.deleteList = this.deleteList.bind(this);
 		this.getItems = this.getItems.bind(this);
 		this.createItem = this.createItem.bind(this);
@@ -49,6 +50,33 @@ class TodoApp extends React.Component {
 			completeCallback();
 		};
 		this.props.todoService.createList(list, success, error);
+	}
+
+	updateList(list, onComplete) {
+		const completeCallback = this._verifyCompleteCallback(onComplete);
+		const success = data => {
+			this.setState((prevState, props) => {
+				const lists = prevState.lists.map(l => {
+					if (l.id === list.id) {
+						return {
+							"id": list.id,
+							"name": list.name,
+							"items": l.items
+						};
+					}
+					return list;
+				});
+
+				return { "lists": lists };
+			});
+			completeCallback();
+		};
+		const error = (xhr, text, status) => {
+			console.error(`updateList error: listId='${list.id}' text='${text}' status='${status}'`);
+			completeCallback();
+		};
+
+		this.props.todoService.updateList(list, success, error);
 	}
 
 	deleteList(id) {
@@ -175,7 +203,7 @@ class TodoApp extends React.Component {
 	}
 
 	render() {
-		const lists = this.state.lists.map(list => React.createElement(TodoList, { key: list.id, id: list.id, name: list.name, items: list.items, onGetItems: this.getItems, onDeleteList: this.deleteList, onCreateItem: this.createItem, onUpdateItem: this.updateItem, onDeleteItem: this.deleteItem }));
+		const lists = this.state.lists.map(list => React.createElement(TodoList, { key: list.id, id: list.id, name: list.name, items: list.items, onUpdateList: this.updateList, onDeleteList: this.deleteList, onGetItems: this.getItems, onCreateItem: this.createItem, onUpdateItem: this.updateItem, onDeleteItem: this.deleteItem }));
 		return React.createElement(
 			"div",
 			null,

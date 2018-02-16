@@ -26,6 +26,17 @@ class TodoService {
 		});
 	}
 
+	updateList(list, successCallback, errorCallback) {
+		this._params.jQuery.ajax(this._params.listsUri + `/${list.id}`, {
+			method: "PUT",
+			dataType: "json",
+			jsonp: false,
+			data: list,
+			success: successCallback,
+			error: errorCallback
+		});
+	}
+
 	deleteList(listId, successCallback, errorCallback) {
 		this._params.jQuery.ajax(this._params.listsUri + `/${listId}`, {
 			method: "DELETE",
