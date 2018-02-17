@@ -1,3 +1,5 @@
+"use strict";
+
 class CreateTodoItemForm extends React.Component {
   constructor(props) {
     super(props);

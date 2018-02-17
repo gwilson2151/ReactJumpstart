@@ -1,4 +1,6 @@
-﻿class TodoList extends React.Component {
+"use strict";
+
+class TodoList extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {

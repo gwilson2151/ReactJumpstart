@@ -1,3 +1,5 @@
+"use strict";
+
 class EditableField extends React.Component {
   constructor(props) {
     super(props);

@@ -1,4 +1,6 @@
-﻿class TodoService {
+"use strict";
+
+class TodoService {
 	constructor(params) {
 		this._params = params;
 	}

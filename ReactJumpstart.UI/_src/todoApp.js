@@ -1,4 +1,6 @@
-﻿class TodoApp extends React.Component {
+"use strict";
+
+class TodoApp extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
