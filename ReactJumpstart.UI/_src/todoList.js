@@ -78,20 +78,20 @@
 		let buttons;
 		
 		if (!this.state.isEditing) {
-			name = (<span onClick={this.toggleExpand}>{expandIndicator} {this.state.name}</span>);
+			name = (<span className="hand" onClick={this.toggleExpand}>{expandIndicator} {this.state.name}</span>);
 			buttons = (<span>
 				<button type="button" onClick={this.toggleEdit}>EDIT</button>
 				<button type="button" onClick={this.deleteList}>DELETE</button>
 			</span>);
 		} else {
 			name = (<span>
-				<span onClick={() => this.setState({"isEditing": false, "isExpanded": false})}>{expandIndicator} </span>
+				<span className="hand" onClick={() => this.setState({"isEditing": false, "isExpanded": false})}>{expandIndicator} </span>
 				<EditableField value={this.state.name} buttonText="UPDATE" onSubmit={this.updateName} />
 			</span>);
 			buttons = (<span><button type="button" onClick={() => {this.setState({"isEditing": false})}}>CANCEL</button></span>);
 		}
 		
-		return (<div>
+		return (<div className="list">
 			<div>
 				{name}{buttons}
 			</div>

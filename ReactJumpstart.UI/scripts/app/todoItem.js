@@ -11,6 +11,7 @@ class TodoItem extends React.Component {
 		};
 		this.deleteItem = this.deleteItem.bind(this);
 		this.toggleEdit = this.toggleEdit.bind(this);
+		this.toggleDone = this.toggleDone.bind(this);
 		this.updateText = this.updateText.bind(this);
 	}
 
@@ -46,10 +47,23 @@ class TodoItem extends React.Component {
 		});
 	}
 
+	toggleDone() {
+		this.setState((prevState, props) => {
+			return { "done": !prevState.done };
+		});
+	}
+
 	render() {
 		let buttons;
 		let text;
+		const checkbox = React.createElement("input", { type: "checkbox", onChange: this.toggleDone, checked: this.state.done });
+
 		if (!this.state.isEditing) {
+			text = React.createElement(
+				"span",
+				{ className: this.state.done ? "done" : "" },
+				this.state.text
+			);
 			buttons = React.createElement(
 				"span",
 				null,
@@ -63,11 +77,6 @@ class TodoItem extends React.Component {
 					{ type: "button", onClick: this.deleteItem },
 					"DELETE"
 				)
-			);
-			text = React.createElement(
-				"span",
-				null,
-				this.state.text
 			);
 		} else {
 			text = React.createElement(
@@ -90,6 +99,7 @@ class TodoItem extends React.Component {
 		return React.createElement(
 			"li",
 			null,
+			checkbox,
 			text,
 			buttons
 		);

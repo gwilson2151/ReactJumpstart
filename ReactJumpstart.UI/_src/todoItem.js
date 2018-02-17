@@ -9,6 +9,7 @@
 		};
 		this.deleteItem = this.deleteItem.bind(this);
 		this.toggleEdit = this.toggleEdit.bind(this);
+		this.toggleDone = this.toggleDone.bind(this);
 		this.updateText = this.updateText.bind(this);
 	}
 	
@@ -45,23 +46,30 @@
 			return { "isEditing": !prevState.isEditing };
 		});
 	}
+	
+	toggleDone() {
+		this.setState((prevState, props) => {
+			return { "done": !prevState.done };
+		});
+	}
 
 	render() {
 		let buttons;
 		let text;
+		const checkbox = (<input type="checkbox" onChange={this.toggleDone} checked={this.state.done}/>);
+		
 		if (!this.state.isEditing) {
+			text = (<span className={this.state.done ? "done" : ""}>{this.state.text}</span>);
 			buttons = (<span>
 				<button type="button" onClick={this.toggleEdit}>EDIT</button>
 				<button type="button" onClick={this.deleteItem}>DELETE</button>
 			</span>);
-			text = (<span>{this.state.text}</span>);
 		} else {
 			text = (<span><EditableField value={this.state.text} buttonText="UPDATE" onSubmit={this.updateText} /></span>);
 			buttons = (<span><button type="button" onClick={() => {this.setState({"isEditing": false})}}>CANCEL</button></span>);
 		}
-		return (
-		<li>
-			{text}{buttons}
+		return (<li>
+			{checkbox}{text}{buttons}
 		</li>);
 	}
 }

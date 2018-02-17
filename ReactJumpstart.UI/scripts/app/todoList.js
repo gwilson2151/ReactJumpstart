@@ -92,7 +92,7 @@ class TodoList extends React.Component {
 		if (!this.state.isEditing) {
 			name = React.createElement(
 				"span",
-				{ onClick: this.toggleExpand },
+				{ className: "hand", onClick: this.toggleExpand },
 				expandIndicator,
 				" ",
 				this.state.name
@@ -117,7 +117,7 @@ class TodoList extends React.Component {
 				null,
 				React.createElement(
 					"span",
-					{ onClick: () => this.setState({ "isEditing": false, "isExpanded": false }) },
+					{ className: "hand", onClick: () => this.setState({ "isEditing": false, "isExpanded": false }) },
 					expandIndicator,
 					" "
 				),
@@ -138,7 +138,7 @@ class TodoList extends React.Component {
 
 		return React.createElement(
 			"div",
-			null,
+			{ className: "list" },
 			React.createElement(
 				"div",
 				null,
