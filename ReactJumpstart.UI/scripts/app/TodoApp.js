@@ -203,7 +203,14 @@ class TodoApp extends React.Component {
 	}
 
 	render() {
-		const lists = this.state.lists.map(list => React.createElement(TodoList, { key: list.id, id: list.id, name: list.name, items: list.items, onUpdateList: this.updateList, onDeleteList: this.deleteList, onGetItems: this.getItems, onCreateItem: this.createItem, onUpdateItem: this.updateItem, onDeleteItem: this.deleteItem }));
+		const lists = this.state.lists.map(list => React.createElement(TodoList, { key: list.id,
+			list: list,
+			onUpdateList: this.updateList,
+			onDeleteList: this.deleteList,
+			onGetItems: this.getItems,
+			onCreateItem: this.createItem,
+			onUpdateItem: this.updateItem,
+			onDeleteItem: this.deleteItem }));
 		return React.createElement(
 			"div",
 			null,

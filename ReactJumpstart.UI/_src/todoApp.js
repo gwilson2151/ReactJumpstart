@@ -204,7 +204,14 @@ class TodoApp extends React.Component {
 
 	render() {
 		const lists = this.state.lists.map(list => 
-			<TodoList key={list.id} id={list.id} name={list.name} items={list.items} onUpdateList={this.updateList} onDeleteList={this.deleteList} onGetItems={this.getItems} onCreateItem={this.createItem} onUpdateItem={this.updateItem} onDeleteItem={this.deleteItem} />
+			<TodoList key={list.id}
+					list={list}
+					onUpdateList={this.updateList}
+					onDeleteList={this.deleteList}
+					onGetItems={this.getItems}
+					onCreateItem={this.createItem}
+					onUpdateItem={this.updateItem}
+					onDeleteItem={this.deleteItem} />
 		);
 		return (
 			<div>

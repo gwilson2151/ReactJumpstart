@@ -26,16 +26,17 @@ class CreateTodoListForm extends React.Component {
   render() {
     return React.createElement(
       'div',
-      null,
+      { className: 'field-row' },
       React.createElement(
         'form',
         { onSubmit: this.handleSubmit },
         React.createElement(
           'label',
-          null,
-          'New List:',
-          React.createElement('input', { type: 'text', value: this.state.value, onChange: this.handleChange })
+          { 'for': 'create-list-name' },
+          'New List: '
         ),
+        React.createElement('input', { type: 'text', value: this.state.value, id: 'create-list-name', onChange: this.handleChange }),
+        '\xA0',
         React.createElement('input', { type: 'submit', value: 'CREATE', disabled: this.state.isLoading })
       )
     );

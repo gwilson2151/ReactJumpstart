@@ -1,13 +1,9 @@
 ﻿body {
-	background-color: magenta;
+	background-color: #fefefe;
     padding-top: 50px;
     padding-bottom: 20px;
-}
-
-/* Set padding to keep content from hitting the edges */
-.body-content {
-    padding-left: 15px;
-    padding-right: 15px;
+    padding-left: 35px;
+    padding-right: 35px;
 }
 
 /* Override the default bootstrap behavior where horizontal description lists 
@@ -25,7 +21,11 @@ textarea {
 }
 
 div#root {
-	background-color: cyan;
+}
+
+label {
+	width: 250px;
+	margin-bottom: 0;
 }
 
 span.done {
@@ -34,8 +34,39 @@ span.done {
 
 div.list ul {
 	list-style-type: none;
+	padding-left: 10px;
+}
+
+
+div.list ul li {
+	margin: 2px 0;
 }
 
 .hand {
 	cursor: pointer;
+}
+
+.list-name {
+	display: inline-block;
+	width: 250px;
+}
+
+.item-name {
+	display: inline-block;
+	width: 218px;
+}
+
+.buttons-container {
+	display: inline-block;
+	width: 252px;
+	text-align: right;
+}
+
+input[type="submit"],
+button[type="button"] {
+	width: 70px;
+}
+
+div.field-row {
+	margin: 2px 0;
 }

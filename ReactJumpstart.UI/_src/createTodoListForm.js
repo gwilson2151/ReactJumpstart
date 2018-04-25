@@ -25,12 +25,10 @@ class CreateTodoListForm extends React.Component {
 
   render() {
     return (
-	<div>
+	<div className="field-row">
       <form onSubmit={this.handleSubmit}>
-        <label>
-          New List: 
-          <input type="text" value={this.state.value} onChange={this.handleChange} />
-        </label>
+        <label for="create-list-name">New List: </label>
+		<input type="text" value={this.state.value} id="create-list-name" onChange={this.handleChange} />&nbsp;
         <input type="submit" value="CREATE" disabled={this.state.isLoading} />
       </form>
 	</div>

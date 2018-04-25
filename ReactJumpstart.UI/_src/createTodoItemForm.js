@@ -25,12 +25,10 @@ class CreateTodoItemForm extends React.Component {
 
   render() {
     return (
-	<div>
+	<div className="field-row">
       <form onSubmit={this.handleSubmit}>
-        <label>
-          New Item: 
-          <input type="text" value={this.state.value} onChange={this.handleChange} />
-        </label>
+        <label for="create-item-name">New Item: </label>
+		<input type="text" value={this.state.value} id="create-item-name" onChange={this.handleChange} />&nbsp;
         <input type="submit" value="CREATE" disabled={this.state.isLoading} />
       </form>
 	</div>
