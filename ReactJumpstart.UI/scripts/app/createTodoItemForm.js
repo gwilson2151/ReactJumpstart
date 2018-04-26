@@ -32,7 +32,7 @@ class CreateTodoItemForm extends React.Component {
         { onSubmit: this.handleSubmit },
         React.createElement(
           "label",
-          { "for": "create-item-name" },
+          { htmlFor: "create-item-name" },
           "New Item: "
         ),
         React.createElement("input", { type: "text", value: this.state.value, id: "create-item-name", onChange: this.handleChange }),

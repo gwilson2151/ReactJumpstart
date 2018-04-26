@@ -4,7 +4,7 @@ class TodoApp extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			lists: props.lists || []
+			"lists": props.lists || []
 		};
 		this.getLists();
 		this.createList = this.createList.bind(this);
@@ -64,7 +64,7 @@ class TodoApp extends React.Component {
 							"items": l.items
 						};
 					}
-					return list;
+					return l;
 				});
 
 				return { "lists": lists };

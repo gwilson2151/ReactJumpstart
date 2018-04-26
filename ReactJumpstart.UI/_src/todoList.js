@@ -64,7 +64,7 @@ class TodoList extends React.Component {
 		if (this.state.isLoading) {
 			contents = (<div>loading...</div>);
 		} else if (this.state.isExpanded) {
-			const items = this.props.list.items.map(item => 
+			const items = this.props.list.items && this.props.list.items.map(item => 
 					<TodoItem key={item.id}
 							item={item}
 							listId={this.props.list.id}

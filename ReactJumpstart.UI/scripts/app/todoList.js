@@ -68,7 +68,7 @@ class TodoList extends React.Component {
 				"loading..."
 			);
 		} else if (this.state.isExpanded) {
-			const items = this.props.list.items.map(item => React.createElement(TodoItem, { key: item.id,
+			const items = this.props.list.items && this.props.list.items.map(item => React.createElement(TodoItem, { key: item.id,
 				item: item,
 				listId: this.props.list.id,
 				onUpdateItem: this.props.onUpdateItem,
