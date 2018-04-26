@@ -4,9 +4,9 @@ class TodoItem extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			"text": props.text,
-			"done": props.done,
-			"notes": props.notes,
+			"text": props.item.text,
+			"done": props.item.done,
+			"notes": props.item.notes,
 			"isEditing": false
 		};
 		this.deleteItem = this.deleteItem.bind(this);
@@ -22,7 +22,7 @@ class TodoItem extends React.Component {
 	}
 
 	deleteItem() {
-		this.props.onDeleteItem(this.props.id);
+		this.props.onDeleteItem(this.props.item.id);
 	}
 
 	updateText(text, completeCallback) {
@@ -32,7 +32,7 @@ class TodoItem extends React.Component {
 
 	updateItem() {
 		let item = {
-			"id": this.props.id,
+			"id": this.props.item.id,
 			"listId": this.props.listId,
 			"text": this.state.text,
 			"done": this.state.done,
@@ -61,17 +61,18 @@ class TodoItem extends React.Component {
 		if (!this.state.isEditing) {
 			text = React.createElement(
 				"span",
-				{ className: this.state.done ? "done" : "" },
+				{ className: `item-name ${this.state.done ? "done" : ""}` },
 				this.state.text
 			);
 			buttons = React.createElement(
 				"span",
-				null,
+				{ className: "buttons-container" },
 				React.createElement(
 					"button",
 					{ type: "button", onClick: this.toggleEdit },
 					"EDIT"
 				),
+				"\xA0",
 				React.createElement(
 					"button",
 					{ type: "button", onClick: this.deleteItem },
@@ -100,7 +101,9 @@ class TodoItem extends React.Component {
 			"li",
 			null,
 			checkbox,
+			" ",
 			text,
+			" ",
 			buttons
 		);
 	}

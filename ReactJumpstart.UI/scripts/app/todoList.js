@@ -4,7 +4,7 @@ class TodoList extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			"name": props.name,
+			"name": props.list.name,
 			"isExpanded": false,
 			"isLoading": false,
 			"isEditing": false
@@ -18,7 +18,7 @@ class TodoList extends React.Component {
 	componentDidUpdate(prevProps, prevState) {
 		if (prevState.name !== this.state.name) {
 			let list = {
-				"id": this.props.id,
+				"id": this.props.list.id,
 				"name": this.state.name
 			};
 			this.props.onUpdateList(list);
@@ -42,7 +42,7 @@ class TodoList extends React.Component {
 	toggleExpand() {
 		const willExpand = !this.state.isExpanded;
 		if (willExpand) {
-			this.getItems(this.props.id);
+			this.getItems(this.props.list.id);
 		}
 		this.setState({ "isExpanded": willExpand });
 	}
@@ -54,7 +54,7 @@ class TodoList extends React.Component {
 	}
 
 	deleteList() {
-		this.props.onDeleteList(this.props.id);
+		this.props.onDeleteList(this.props.list.id);
 	}
 
 	render() {
@@ -68,7 +68,11 @@ class TodoList extends React.Component {
 				"loading..."
 			);
 		} else if (this.state.isExpanded) {
-			const items = this.props.items.map(item => React.createElement(TodoItem, { key: item.id, id: item.id, listId: this.props.id, text: item.text, done: item.done, notes: item.notes, onUpdateItem: this.props.onUpdateItem, onDeleteItem: this.props.onDeleteItem }));
+			const items = this.props.list.items && this.props.list.items.map(item => React.createElement(TodoItem, { key: item.id,
+				item: item,
+				listId: this.props.list.id,
+				onUpdateItem: this.props.onUpdateItem,
+				onDeleteItem: this.props.onDeleteItem }));
 			if (items && items.length > 0) {
 				contents = React.createElement(
 					"ul",
@@ -82,7 +86,7 @@ class TodoList extends React.Component {
 					"no items."
 				);
 			}
-			form = React.createElement(CreateTodoItemForm, { listId: this.props.id, onCreateItem: this.props.onCreateItem });
+			form = React.createElement(CreateTodoItemForm, { listId: this.props.list.id, onCreateItem: this.props.onCreateItem });
 		}
 
 		const expandIndicator = this.state.isExpanded ? "[-]" : "[+]";
@@ -92,19 +96,20 @@ class TodoList extends React.Component {
 		if (!this.state.isEditing) {
 			name = React.createElement(
 				"span",
-				{ className: "hand", onClick: this.toggleExpand },
+				{ className: "hand list-name", onClick: this.toggleExpand },
 				expandIndicator,
 				" ",
 				this.state.name
 			);
 			buttons = React.createElement(
 				"span",
-				null,
+				{ className: "buttons-container" },
 				React.createElement(
 					"button",
 					{ type: "button", onClick: this.toggleEdit },
 					"EDIT"
 				),
+				"\xA0",
 				React.createElement(
 					"button",
 					{ type: "button", onClick: this.deleteList },
@@ -141,7 +146,7 @@ class TodoList extends React.Component {
 			{ className: "list" },
 			React.createElement(
 				"div",
-				null,
+				{ className: "field-row" },
 				name,
 				buttons
 			),

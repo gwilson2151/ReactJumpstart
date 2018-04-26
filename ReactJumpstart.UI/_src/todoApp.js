@@ -4,7 +4,7 @@ class TodoApp extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			lists: props.lists || []
+			"lists": props.lists || []
 		};
 		this.getLists();
 		this.createList = this.createList.bind(this);
@@ -64,7 +64,7 @@ class TodoApp extends React.Component {
 							"items": l.items
 						};
 					}
-					return list;
+					return l;
 				});
 
 				return { "lists": lists };
@@ -204,7 +204,14 @@ class TodoApp extends React.Component {
 
 	render() {
 		const lists = this.state.lists.map(list => 
-			<TodoList key={list.id} id={list.id} name={list.name} items={list.items} onUpdateList={this.updateList} onDeleteList={this.deleteList} onGetItems={this.getItems} onCreateItem={this.createItem} onUpdateItem={this.updateItem} onDeleteItem={this.deleteItem} />
+			<TodoList key={list.id}
+					list={list}
+					onUpdateList={this.updateList}
+					onDeleteList={this.deleteList}
+					onGetItems={this.getItems}
+					onCreateItem={this.createItem}
+					onUpdateItem={this.updateItem}
+					onDeleteItem={this.deleteItem} />
 		);
 		return (
 			<div>

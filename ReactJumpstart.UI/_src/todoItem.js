@@ -4,9 +4,9 @@ class TodoItem extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			"text": props.text,
-			"done": props.done,
-			"notes": props.notes,
+			"text": props.item.text,
+			"done": props.item.done,
+			"notes": props.item.notes,
 			"isEditing": false
 		};
 		this.deleteItem = this.deleteItem.bind(this);
@@ -24,7 +24,7 @@ class TodoItem extends React.Component {
 	}
 	
 	deleteItem() {
-		this.props.onDeleteItem(this.props.id);
+		this.props.onDeleteItem(this.props.item.id);
 	}
 	
 	updateText(text, completeCallback) {
@@ -34,7 +34,7 @@ class TodoItem extends React.Component {
 	
 	updateItem() {
 		let item = {
-			"id": this.props.id,
+			"id": this.props.item.id,
 			"listId": this.props.listId,
 			"text": this.state.text,
 			"done": this.state.done,
@@ -61,17 +61,15 @@ class TodoItem extends React.Component {
 		const checkbox = (<input type="checkbox" onChange={this.toggleDone} checked={this.state.done}/>);
 		
 		if (!this.state.isEditing) {
-			text = (<span className={this.state.done ? "done" : ""}>{this.state.text}</span>);
-			buttons = (<span>
-				<button type="button" onClick={this.toggleEdit}>EDIT</button>
+			text = (<span className={`item-name ${this.state.done ? "done" : ""}`}>{this.state.text}</span>);
+			buttons = (<span className="buttons-container">
+				<button type="button" onClick={this.toggleEdit}>EDIT</button>&nbsp;
 				<button type="button" onClick={this.deleteItem}>DELETE</button>
 			</span>);
 		} else {
 			text = (<span><EditableField value={this.state.text} buttonText="UPDATE" onSubmit={this.updateText} /></span>);
 			buttons = (<span><button type="button" onClick={() => {this.setState({"isEditing": false})}}>CANCEL</button></span>);
 		}
-		return (<li>
-			{checkbox}{text}{buttons}
-		</li>);
+		return (<li>{checkbox} {text} {buttons}</li>);
 	}
 }

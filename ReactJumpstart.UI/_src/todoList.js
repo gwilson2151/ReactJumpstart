@@ -4,7 +4,7 @@ class TodoList extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			"name": props.name,
+			"name": props.list.name,
 			"isExpanded": false,
 			"isLoading": false,
 			"isEditing": false
@@ -18,7 +18,7 @@ class TodoList extends React.Component {
 	componentDidUpdate(prevProps, prevState) {
 		if (prevState.name !== this.state.name) {
 			let list = {
-				"id": this.props.id,
+				"id": this.props.list.id,
 				"name": this.state.name
 			};
 			this.props.onUpdateList(list);
@@ -42,7 +42,7 @@ class TodoList extends React.Component {
 	toggleExpand() {
 		const willExpand = !this.state.isExpanded;
 		if (willExpand) {
-			this.getItems(this.props.id);
+			this.getItems(this.props.list.id);
 		}
 		this.setState({ "isExpanded": willExpand });
 	}
@@ -54,7 +54,7 @@ class TodoList extends React.Component {
 	}
 	
 	deleteList() {
-		this.props.onDeleteList(this.props.id);
+		this.props.onDeleteList(this.props.list.id);
 	}
 
 	render() {
@@ -64,15 +64,19 @@ class TodoList extends React.Component {
 		if (this.state.isLoading) {
 			contents = (<div>loading...</div>);
 		} else if (this.state.isExpanded) {
-			const items = this.props.items.map(item => 
-					<TodoItem key={item.id} id={item.id} listId={this.props.id} text={item.text} done={item.done} notes={item.notes} onUpdateItem={this.props.onUpdateItem} onDeleteItem={this.props.onDeleteItem} />
+			const items = this.props.list.items && this.props.list.items.map(item => 
+					<TodoItem key={item.id}
+							item={item}
+							listId={this.props.list.id}
+							onUpdateItem={this.props.onUpdateItem}
+							onDeleteItem={this.props.onDeleteItem} />
 				);
 			if (items && items.length > 0) {
 				contents = (<ul>{items}</ul>);
 			} else {
 				contents = (<div>no items.</div>);
 			}
-			form = (<CreateTodoItemForm listId={this.props.id} onCreateItem={this.props.onCreateItem}/>);
+			form = (<CreateTodoItemForm listId={this.props.list.id} onCreateItem={this.props.onCreateItem}/>);
 		}
 		
 		const expandIndicator = this.state.isExpanded ? "[-]" : "[+]";
@@ -80,9 +84,9 @@ class TodoList extends React.Component {
 		let buttons;
 		
 		if (!this.state.isEditing) {
-			name = (<span className="hand" onClick={this.toggleExpand}>{expandIndicator} {this.state.name}</span>);
-			buttons = (<span>
-				<button type="button" onClick={this.toggleEdit}>EDIT</button>
+			name = (<span className="hand list-name" onClick={this.toggleExpand}>{expandIndicator} {this.state.name}</span>);
+			buttons = (<span className="buttons-container">
+				<button type="button" onClick={this.toggleEdit}>EDIT</button>&nbsp;
 				<button type="button" onClick={this.deleteList}>DELETE</button>
 			</span>);
 		} else {
@@ -94,7 +98,7 @@ class TodoList extends React.Component {
 		}
 		
 		return (<div className="list">
-			<div>
+			<div className="field-row">
 				{name}{buttons}
 			</div>
 			{form}
